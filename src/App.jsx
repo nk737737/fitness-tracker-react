@@ -1,18 +1,28 @@
-import WorkoutCard from  './WorkoutCard.jsx'
 import WorkoutList from './WorkoutList.jsx'
 import {useState} from "react"; 
 
 function App() {
 
-  const [count, setCount] = useState(0);
+  const [workouts, setWorkouts] = useState([
+  { id: 1, type: "Running", duration: 30 },
+  { id: 2, type: "Strength", duration: 45 },
+  { id: 3, type: "Yoga", duration: 20 },
+  { id: 4, type: "Walking", duration: 40 }
+
+  ]);
 
 function handleClick() {
-    setCount(count + 1)
+    const newWorkout = {
+      id: Date.now(),
+      type: "Running",
+      duration: 30
+    };
+    setWorkouts([...workouts, newWorkout]);
   }
 
 function handleRemove() {
-  if (count > 0) {
-    setCount(count - 1);
+  if (workouts.length > 0) {
+    setWorkouts (workouts.slice(0, -1));
   }
   
 }
@@ -20,8 +30,8 @@ function handleRemove() {
   return (
     <>
     <h1>Fitness Tracker</h1>
-     <WorkoutList title="My Workouts" workoutType="Running" workoutDuration={30} />
-      <p>Total Workouts: {count}</p>
+     <WorkoutList title="My Workouts" workouts={workouts} />
+      <p>Total Workouts: {workouts.length}</p>
       <button onClick={handleClick}>Add Workout</button>
       <button onClick={handleRemove}>Remove Workout</button>
     </>
