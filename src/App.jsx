@@ -11,15 +11,6 @@ function App() {
 
   ]);
 
-function handleClick() {
-    const newWorkout = {
-      id: Date.now(),
-      type: "Running",
-      duration: 30
-    };
-    setWorkouts([...workouts, newWorkout]);
-  }
-
 function handleRemove() {
   if (workouts.length > 0) {
     setWorkouts (workouts.slice(0, -1));
@@ -27,13 +18,44 @@ function handleRemove() {
   
 }
 
+const [duration, setDuration] = useState("");
+const [type, setType] = useState("Running");
+
+function handleSubmit (event) {
+  event.preventDefault();
+  const newWorkout ={
+      id: Date.now(),
+      type: type,
+      duration: Number(duration)
+  }
+  setWorkouts([...workouts, newWorkout]);
+  console.log("From submited");
+}
+
   return (
     <>
     <h1>Fitness Tracker</h1>
+    <form onSubmit={handleSubmit}>
+    <select 
+    value={type}
+    onChange={(event) => setType(event.target.value)}
+    >
+      <option value="Running">Running</option>
+      <option value="Strength">Strength</option>
+      <option value="Yoga">Yoga</option>
+      <option value="Walking">Walking</option>
+    </select>
+    <input 
+      type="number"
+      value={duration}
+      onChange={(event) => setDuration(event.target.value)}
+      />
+      <button type="submit">Add Workout</button>
+    </form>
      <WorkoutList title="My Workouts" workouts={workouts} />
       <p>Total Workouts: {workouts.length}</p>
-      <button onClick={handleClick}>Add Workout</button>
       <button onClick={handleRemove}>Remove Workout</button>
+      <p>Duration: {duration} minutes</p>
     </>
   )
 }
