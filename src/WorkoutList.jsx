@@ -1,9 +1,6 @@
 import WorkoutCard from "./WorkoutCard"
 
 function WorkoutList(props) {
-
-
-
     return (
         <>
    <h2>{props.title}</h2>
@@ -12,7 +9,9 @@ function WorkoutList(props) {
   <WorkoutCard 
     key={workout.id} 
     type={workout.type} 
-    duration={workout.duration} 
+    duration={workout.duration}
+    id={workout.id}
+    onRemove={props.onRemove}
     />
 ))
    ) : (

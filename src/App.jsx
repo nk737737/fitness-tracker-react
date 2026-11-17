@@ -1,4 +1,5 @@
 import WorkoutList from './WorkoutList.jsx'
+import WorkoutForm from './WorkoutForm.jsx'
 import {useState} from "react"; 
 
 function App() {
@@ -11,51 +12,21 @@ function App() {
 
   ]);
 
-function handleRemove() {
-  if (workouts.length > 0) {
-    setWorkouts (workouts.slice(0, -1));
+function handleAddWorkout (newWorkout) {
+    setWorkouts([...workouts, newWorkout]);
+    
   }
-  
-}
 
-const [duration, setDuration] = useState("");
-const [type, setType] = useState("Running");
-
-function handleSubmit (event) {
-  event.preventDefault();
-  const newWorkout ={
-      id: Date.now(),
-      type: type,
-      duration: Number(duration)
+function handleRemove(id) {
+  setWorkouts(workouts.filter((workout) => workout.id !== id));
   }
-  setWorkouts([...workouts, newWorkout]);
-  console.log("From submited");
-}
 
   return (
     <>
     <h1>Fitness Tracker</h1>
-    <form onSubmit={handleSubmit}>
-    <select 
-    value={type}
-    onChange={(event) => setType(event.target.value)}
-    >
-      <option value="Running">Running</option>
-      <option value="Strength">Strength</option>
-      <option value="Yoga">Yoga</option>
-      <option value="Walking">Walking</option>
-    </select>
-    <input 
-      type="number"
-      value={duration}
-      onChange={(event) => setDuration(event.target.value)}
-      />
-      <button type="submit">Add Workout</button>
-    </form>
-     <WorkoutList title="My Workouts" workouts={workouts} />
+   <WorkoutForm onAddWorkout={handleAddWorkout} />
+     <WorkoutList title="My Workouts" workouts={workouts} onRemove={handleRemove} />
       <p>Total Workouts: {workouts.length}</p>
-      <button onClick={handleRemove}>Remove Workout</button>
-      <p>Duration: {duration} minutes</p>
     </>
   )
 }
